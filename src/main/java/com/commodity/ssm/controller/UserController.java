@@ -14,7 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Created by 龚帝鑫 on 2017/3/21/0021.
+ * @author GongDiXin
+ * @version 1.0
+ * @created 2017/3/21 20:48
+ * @description
  */
 @Controller
 @RequestMapping(value = "/user")
