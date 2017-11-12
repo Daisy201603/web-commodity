@@ -24,8 +24,17 @@ import java.util.List;
 public class UserController {
     private Logger log = Logger.getLogger(UserController.class);
 
+    /**
+     * @author GongDiXin
+     * @date 2017/11/13 0:27
+     * @description
+     * @param
+     * @return
+     * @throws
+    */
     @Resource
     private UserService userService;
+    
 
     @RequestMapping(value = "/login",method= {RequestMethod.POST,RequestMethod.GET})
     @ResponseBody
