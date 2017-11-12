@@ -41,3 +41,26 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+target/web-commodity/EasyUI/jquery.min.js
+.idea/compiler.xml
+.idea/encodings.xml
+.idea/libraries/Maven__com_alibaba_fastjson_1_1_41.xml
+*.iml
+*.xml
+*.js
+*.class
+*.jar
+*.jsp
+*.gif
+*.properties
+*.jpg
+*.css
+*.war
+*.sql
+*.MF
+*.properties
+*.log
+*.properties
+*.lst
+src/main/resources/jdbc.properties
+src/main/resources/jdbc.properties
