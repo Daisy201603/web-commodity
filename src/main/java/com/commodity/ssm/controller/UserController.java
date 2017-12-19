@@ -52,6 +52,6 @@ public class UserController {
     public String showUser(HttpServletRequest request,Model model){
         List<User> userList = userService.getAllUser();
         model.addAttribute("userList",userList);
-        return "/biz/menu";
+        return "/biz/initBootstrap";
     }
 }
