@@ -3,10 +3,11 @@
 <html>
 <head>
     <title>用户登录</title>
-
 </head>
 <body>
-    <p>Fill the form and submit it.</p>
+    <div style="height: 40px">
+
+    </div>
     <div style="margin:20px 0;"></div>
     <div class="easyui-panel" title="login" style="width:100%;max-width:400px;padding:30px 60px;">
         <form id="ff" method="post">
