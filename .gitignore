@@ -64,3 +64,13 @@ target/web-commodity/EasyUI/jquery.min.js
 *.lst
 src/main/resources/jdbc.properties
 src/main/resources/jdbc.properties
+target/web-commodity/bootstrap/fonts/glyphicons-halflings-regular.eot
+target/web-commodity/bootstrap/fonts/glyphicons-halflings-regular.ttf
+target/web-commodity/bootstrap/fonts/glyphicons-halflings-regular.svg
+target/web-commodity/bootstrap/css/bootstrap.min.css.map
+target/web-commodity/bootstrap/css/bootstrap.css.map
+target/web-commodity/bootstrap/css/bootstrap-theme.min.css.map
+target/web-commodity/bootstrap/css/bootstrap-theme.css.map
+target/web-commodity/bootstrap/fonts/glyphicons-halflings-regular.woff
+target/web-commodity/bootstrap/fonts/glyphicons-halflings-regular.woff2
+target/web-commodity/images/favicon.ico
