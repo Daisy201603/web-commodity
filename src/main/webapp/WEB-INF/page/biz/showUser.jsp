@@ -6,10 +6,10 @@
 </head>
 
 <body>
-<div id="header">
+<div id="header" style="margin: 80px">
     <h1>用户列表</h1>
 </div>
-<div id="featured">
+<div id="featured" style="margin-left: 20px">
     <table>
         <tr>
             <td>姓名</td>
