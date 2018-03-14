@@ -1,5 +1,8 @@
 package com.commodity.ssm.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.commodity.ssm.model.Course;
+import com.commodity.ssm.model.Student;
 import com.commodity.ssm.model.User;
 import com.commodity.ssm.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -53,5 +56,52 @@ public class UserController {
         List<User> userList = userService.getAllUser();
         model.addAttribute("userList",userList);
         return "/biz/showUser";
+    }
+
+    @RequestMapping("/queryStudentOne")
+    @ResponseBody
+    public String queryStudentOne(HttpServletRequest request,Model model){
+        int studentId = 1;
+        Student student = userService.selectStudentWithAddress(studentId);
+        return JSON.toJSON(student).toString();
+    }
+
+    @RequestMapping("/queryStudentTwo")
+    @ResponseBody
+    public String queryStudentTwo(HttpServletRequest request,Model model){
+        int studentId = 1;
+        Student student = userService.selectStudentWithAddressTwo(studentId);
+        return JSON.toJSON(student).toString();
+    }
+
+    @RequestMapping("/queryStudentThree")
+    @ResponseBody
+    public String queryStudentThree(HttpServletRequest request,Model model){
+        int studentId = 2;
+        Student student = userService.selectStudentWithAddressThree(studentId);
+        return JSON.toJSON(student).toString();
+    }
+
+    @RequestMapping("/findTutorByIdOne")
+    @ResponseBody
+    public String findTutorByIdOne(HttpServletRequest request,Model model){
+        int tutorId = 2;
+        List<Course> courses = userService.findTutorByIdOne(tutorId);
+        return JSON.toJSON(courses).toString();
+    }
+
+    @RequestMapping("/findTutorByIdTwo")
+    @ResponseBody
+    public String findTutorByIdTwo(HttpServletRequest request,Model model){
+        int tutorId = 2;
+        List<Course> courses = userService.findTutorByIdTwo(tutorId);
+        return JSON.toJSON(courses).toString();
+    }
+
+    @RequestMapping("/findAllTutor")
+    @ResponseBody
+    public String findAllTutor(HttpServletRequest request,Model model){
+        List<Course> courses = userService.findAllTutor();
+        return JSON.toJSON(courses).toString();
     }
 }

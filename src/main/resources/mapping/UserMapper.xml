@@ -11,6 +11,114 @@
         <result column="password" property="password" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <!--使用点符号和嵌套对象-->
+    <resultMap id="StudentWithAddressResultOne" type="com.commodity.ssm.model.Student">
+        <id column="student_id" property="studId"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="phone" property="phone"/>
+        <result column="address_id" property="address.addrId" />
+        <result column="street" property="address.street" />
+        <result column="city" property="address.city" />
+        <result column="state" property="address.state" />
+        <result column="zip" property="address.zip" />
+        <result column="country" property="address.country" />
+    </resultMap>
+
+    <!--使用嵌套ResultMap-->
+    <!--[əˌsoʊʃiˈeɪʃn]-->
+    <resultMap id="StudentWithAddressResultTwo" type="com.commodity.ssm.model.Student">
+        <id column="student_id" property="studId"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="phone" property="phone"/>
+        <association resultMap="AddressResult" property="address"/>
+    </resultMap>
+
+    <resultMap type="com.commodity.ssm.model.Address" id="AddressResult">
+        <id property="addrId" column="address_id"/>
+        <result property="street" column="street"/>
+        <result property="city" column="city"/>
+        <result property="state" column="state"/>
+        <result property="zip" column="zip"/>
+        <result property="country" column="country"/>
+    </resultMap>
+
+    <!--association也可以用于内联resultMap-->
+    <resultMap id="StudentWithAddressResultThree" type="com.commodity.ssm.model.Student">
+        <id column="student_id" property="studId"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="phone" property="phone"/>
+        <association  property="address" javaType="com.commodity.ssm.model.Address">
+            <id property="addrId" column="address_id"/>
+            <result property="street" column="street"/>
+            <result property="city" column="city"/>
+            <result property="state" column="state"/>
+            <result property="zip" column="zip"/>
+            <result property="country" column="country"/>
+        </association>
+    </resultMap>
+
+
+    <!-- 一对多嵌套resultMap -->
+    <resultMap type="com.commodity.ssm.model.Tutor" id="TutorResult">
+        <id column="tutor_id" property="tutorId"/>
+        <result column="tutor_name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <association property="address" javaType="com.commodity.ssm.model.Address">
+            <id property="addrId" column="address_id"/>
+            <result property="street" column="street"/>
+            <result property="city" column="city"/>
+            <result property="state" column="state"/>
+            <result property="zip" column="zip"/>
+            <result property="country" column="country"/>
+        </association>
+        <collection property="courses" resultMap="CourseResult"/>
+    </resultMap>
+
+    <resultMap type="com.commodity.ssm.model.Course" id="CourseResult">
+        <id column="course_id" property="courseId"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+    </resultMap>
+
+    <!-- 一对多内联resultMap -->
+    <!--
+
+        1.多对多与一对多的写法一样 内联collection标签 属性为ofType
+        2.多对一与一对一的写法一样 内联association标签 属性为javaType
+        且以上两种情况均可以使用嵌套的形式 即使用两个resultMap 如TutorResult、StudentWithAddressResultTwo
+        如果是一对一的话没必要使用resultMap 直接sql里写别名就行了
+    -->
+    <resultMap type="com.commodity.ssm.model.Tutor" id="TutorResultTwo">
+        <id column="tutor_id" property="tutorId"/>
+        <result column="tutor_name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <association property="address" javaType="com.commodity.ssm.model.Address">
+            <id property="addrId" column="address_id"/>
+            <result property="street" column="street"/>
+            <result property="city" column="city"/>
+            <result property="state" column="state"/>
+            <result property="zip" column="zip"/>
+            <result property="country" column="country"/>
+        </association>
+        <collection property="courses" ofType="com.commodity.ssm.model.Course">
+            <id column="course_id" property="courseId"/>
+            <result column="name" property="name"/>
+            <result column="description" property="description"/>
+            <result column="start_date" property="startDate"/>
+            <result column="end_date" property="endDate"/>
+        </collection>
+    </resultMap>
+
     <select id="selectAllUser" resultMap="UserBaseMap">
         SELECT
             username AS userName,
@@ -22,6 +130,139 @@
 
     <select id="queryUserByNameAndPassword" parameterType="com.commodity.ssm.model.User" resultType="com.commodity.ssm.model.User">
         SELECT * FROM user WHERE username = #{userName} AND password = #{password}
+    </select>
+
+    <select id="selectStudentWithAddress" parameterType="int" resultMap="StudentWithAddressResultOne">
+        SELECT
+            student_id,
+            name,
+            email,
+            phone,
+            A.address_id,
+            street,
+            city,
+            state,
+            zip,
+            country
+        FROM
+            students S
+        INNER JOIN addresses A ON S.student_id = A.address_id
+        WHERE
+            1 = 1
+        AND student_id = #{studentId}
+    </select>
+
+    <select id="selectStudentWithAddressTwo" parameterType="int" resultMap="StudentWithAddressResultTwo">
+        SELECT
+        student_id,
+        name,
+        email,
+        phone,
+        A.address_id,
+        street,
+        city,
+        state,
+        zip,
+        country
+        FROM
+        students S
+        INNER JOIN addresses A ON S.student_id = A.address_id
+        WHERE
+        1 = 1
+        AND student_id = #{studentId}
+    </select>
+
+    <select id="selectStudentWithAddressThree" parameterType="int" resultMap="StudentWithAddressResultThree">
+        SELECT
+        student_id,
+        name,
+        email,
+        phone,
+        A.address_id,
+        street,
+        city,
+        state,
+        zip,
+        country
+        FROM
+        students S
+        INNER JOIN addresses A ON S.student_id = A.address_id
+        WHERE
+        1 = 1
+        AND student_id = #{studentId}
+    </select>
+
+    <select id="findTutorByIdOne" parameterType="int" resultMap="TutorResult">
+        SELECT
+            T.TUTOR_ID,
+            T. NAME AS TUTOR_NAME,
+            EMAIL,
+            C.COURSE_ID,
+            C. NAME,
+            PHONE,
+            A.address_id,
+            A.street,
+            A.city,
+            A.state,
+            A.zip,
+            A.country,
+            DESCRIPTION,
+            START_DATE,
+            END_DATE
+        FROM
+            TUTORS T
+        LEFT OUTER JOIN ADDRESSES A ON T.ADDRESS_ID = A.ADDRESS_ID
+        LEFT OUTER JOIN COURSES C ON T.TUTOR_ID = C.TUTOR_ID
+        WHERE
+            T.TUTOR_ID = #{tutorId}
+    </select>
+
+    <select id="findTutorByIdTwo" parameterType="int" resultMap="TutorResultTwo">
+        SELECT
+        T.TUTOR_ID,
+        T. NAME AS TUTOR_NAME,
+        EMAIL,
+        C.COURSE_ID,
+        C. NAME,
+        PHONE,
+        A.address_id,
+        A.street,
+        A.city,
+        A.state,
+        A.zip,
+        A.country,
+        DESCRIPTION,
+        START_DATE,
+        END_DATE
+        FROM
+        TUTORS T
+        LEFT OUTER JOIN ADDRESSES A ON T.ADDRESS_ID = A.ADDRESS_ID
+        LEFT OUTER JOIN COURSES C ON T.TUTOR_ID = C.TUTOR_ID
+        WHERE
+        T.TUTOR_ID = #{tutorId}
+    </select>
+
+    <select id="findAllTutor" resultMap="TutorResultTwo">
+        SELECT
+        T.TUTOR_ID,
+        T. NAME AS TUTOR_NAME,
+        EMAIL,
+        C.COURSE_ID,
+        C. NAME,
+        PHONE,
+        A.address_id,
+        A.street,
+        A.city,
+        A.state,
+        A.zip,
+        A.country,
+        DESCRIPTION,
+        START_DATE,
+        END_DATE
+        FROM
+        TUTORS T
+        LEFT OUTER JOIN ADDRESSES A ON T.ADDRESS_ID = A.ADDRESS_ID
+        LEFT OUTER JOIN COURSES C ON T.TUTOR_ID = C.TUTOR_ID
     </select>
 
 </mapper>
