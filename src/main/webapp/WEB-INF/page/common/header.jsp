@@ -9,7 +9,7 @@
     <script src="${contextPath}/js/jquery-3.2.1.js"></script>
     <script src="${contextPath}/EasyUI/jquery.min.js"></script>
     <script src="${contextPath}/EasyUI/jquery.easyui.min.js"></script>
-    <script src="${contextPath}/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/bootstrap/js/bootstrap.js"></script>
     <link rel="stylesheet" type="text/css" href="${contextPath}/EasyUI/easyui.css">
     <link rel="stylesheet" type="text/css" href="${contextPath}/EasyUI/icon.css">
     <link rel="stylesheet" type="text/css" href="${contextPath}/bootstrap/css/bootstrap.css">

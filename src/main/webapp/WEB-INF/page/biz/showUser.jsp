@@ -27,6 +27,9 @@
         </c:if>
     </table>
 </div>
+<!-- Live800在线客服图标:[固定型] 开始-->
+<script language="javascript" src="http://care60.dev.live800.com/live800/chatClient/staticButton.js?companyID=8818&configID=405&codeType=custom" charset="UTF-8"></script>
+<!-- Live800在线客服图标:[固定型] 结束-->
 </body>
 </html>
 <%@ include file="/WEB-INF/page/common/footer.jsp"%>
