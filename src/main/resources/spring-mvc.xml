@@ -11,6 +11,7 @@
                            http://www.springframework.org/schema/context/spring-context-4.0.xsd">
     <!--自动扫描@Controller-->
     <context:component-scan base-package="com.commodity.ssm.controller"/>
+    <context:component-scan base-package="com.commodity.ssm.model"/>
 
     <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
     <mvc:annotation-driven />

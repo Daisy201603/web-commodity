@@ -1,10 +1,15 @@
 package com.commodity.ssm.model;
 
-import java.util.Date;
+import org.springframework.stereotype.Component;
 
 /**
- * Created by 龚帝鑫 on 2017/3/20.
+ * @author GongDiXin
+ * @version 1.0
+ * @created 2017/3/20 20:48
+ * @description
  */
+
+@Component
 public class User {
 
     private Integer id;

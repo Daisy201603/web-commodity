@@ -27,14 +27,19 @@ define(function (require,exports,module) {
                 return;
             }
 
+            var user = {};
+            user.userName = name;
+            user.password = password;
+
             $.ajax({
                 type: "POST",
-                url: "user/login",
+                url: "userLogin",
                 async:false,
-                data: {username:name, password:password},
+                data: JSON.stringify(user),
                 dataType: "json",
+                contentType: "application/json; charset=utf-8",
                 success: function(data){
-                    if(null != data && data.id != ""){
+                    if(data){
                         //如果直接跳转至jsp的话不行 因为WEB-INF下的jsp是访问不到的
                         //所以应该是跳转至控制器然后由控制器跳转
                         forwardFlag = true;
@@ -42,13 +47,11 @@ define(function (require,exports,module) {
                 },
                 error : function () {
                     $.messager.alert('alert','Username or password is incorrect!');
-                    login.clearForm();
-
                 }
             });
             if(forwardFlag){
-                window.location.href = "user/showUser";
-                window.event.returnValue=false;
+                //登录成功，跳转至主页
+                window.location.href = "showUser";
             }
         },
         /**

@@ -5,15 +5,21 @@ import com.commodity.ssm.model.Course;
 import com.commodity.ssm.model.Student;
 import com.commodity.ssm.model.User;
 import com.commodity.ssm.service.UserService;
+import com.commodity.util.ValidateUtil;
+import com.sun.deploy.net.HttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -39,17 +45,32 @@ public class UserController {
     private UserService userService;
     
 
-    @RequestMapping(value = "/login",method= {RequestMethod.POST,RequestMethod.GET})
-    @ResponseBody
-    public User login(HttpServletRequest request){
-        String name = request.getParameter("username");
-        String password = request.getParameter("password");
-        User user = new User();
-        user.setUserName(name);
-        user.setPassword(password);
-        User loginUser = userService.login(user);
-        return loginUser;
+    @RequestMapping(value = "/login",method= {RequestMethod.GET})
+    public ModelAndView login(HttpServletRequest request){
+        User user = sessionCheck(request);
+        ModelAndView model = new ModelAndView();
+        model.addObject("user",user);
+        model.setViewName("/biz/login");
+        return model;
     }
+
+    @RequestMapping(value = "/userLogin",method= {RequestMethod.POST})
+    @ResponseBody
+    public boolean userLogin(@RequestBody User user, HttpServletRequest request){
+        if (!ValidateUtil.isEmpty(sessionCheck(request))) {
+            return true;
+        } else {
+            User loginUser = userService.login(user);
+            if (!ValidateUtil.isEmpty(loginUser)) {
+                HttpSession session = request.getSession();
+                session.setAttribute("loginUser",loginUser);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
     @RequestMapping("/showUser")
     public String showUser(HttpServletRequest request,Model model){
@@ -103,5 +124,27 @@ public class UserController {
     public String findAllTutor(HttpServletRequest request,Model model){
         List<Course> courses = userService.findAllTutor();
         return JSON.toJSON(courses).toString();
+    }
+
+    /**
+     * session检查
+     *
+     * @author GongDiXin
+     * @date 2018/3/29 21:47
+     * @param request
+     * @return 是否存在session
+    */
+    private User sessionCheck(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user =  (User) session.getAttribute("loginUser");
+        if (ValidateUtil.isEmpty(user)) {
+            return null;
+        }
+        User queryUser = userService.login(user);
+        if (ValidateUtil.isEmpty(queryUser)) {
+            return null;
+        } else {
+            return queryUser;
+        }
     }
 }

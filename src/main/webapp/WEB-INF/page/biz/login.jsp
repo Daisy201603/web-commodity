@@ -12,10 +12,10 @@
     <div class="easyui-panel" title="login" style="width:100%;max-width:400px;padding:30px 60px;">
         <form id="ff" method="post">
             <div style="margin-bottom:20px">
-                <input class="easyui-textbox" name="username"   style="width:100%" data-options="label:'UserName:',required:true,missingMessage:'请输入用户名'">
+                <input class="easyui-textbox" name="username"  value="${user.userName}" style="width:100%" data-options="label:'UserName:',required:true,missingMessage:'请输入用户名'">
             </div>
             <div style="margin-bottom:20px">
-                <input class="easyui-textbox" name="password" type="password" style="width:100%" data-options="label:'Password:',required:true,missingMessage:'请输入密码'">
+                <input class="easyui-textbox" name="password" type="password" value="${user.password}" style="width:100%" data-options="label:'Password:',required:true,missingMessage:'请输入密码'">
             </div>
             <%--<div style="margin-bottom:20px">
                 <input class="easyui-textbox" name="subject" style="width:100%" data-options="label:'Subject:',required:true">
@@ -34,6 +34,7 @@
     </div>
     <script type="text/javascript">
         seajs.use("${contextPath}/js/commodity/login");
+        seajs.data = "${contextPath}";
     </script>
 </body>
 </html>

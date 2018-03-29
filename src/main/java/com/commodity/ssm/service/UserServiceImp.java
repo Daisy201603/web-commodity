@@ -18,11 +18,13 @@ public class UserServiceImp implements UserService{
     @Resource
     private UserDAO userDAO;
 
+    @Override
     public List<User> getAllUser() {
        List<User> users = userDAO.selectAllUser();
        return users;
     }
 
+    @Override
     public User login(User user) {
         return userDAO.queryUserByNameAndPassword(user);
     }
