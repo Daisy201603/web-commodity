@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author GongDiXin
@@ -16,9 +18,16 @@ import java.io.IOException;
  */
 public class LoginFilter implements Filter{
 
+    private static List<String> pattenUrl = new ArrayList<>();
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        pattenUrl.add("/index.jsp");
+        pattenUrl.add("/user/login");
+        pattenUrl.add(".css");
+        pattenUrl.add(".image");
+        pattenUrl.add(".js");
+        pattenUrl.add(".fonts");
     }
 
     @Override
@@ -27,10 +36,26 @@ public class LoginFilter implements Filter{
         HttpServletResponse httpResponse = (HttpServletResponse)response;
         HttpSession session = servletRequest.getSession();
         User user = (User)session.getAttribute("loginUser");
-        if (ValidateUtil.isEmpty(user) || ((HttpServletRequest) request).getRequestURL().toString().contains("index.jsp")) {
-            chain.doFilter(request,response);
+
+        String indexUrl = servletRequest.getContextPath() + "/index.jsp";
+        String url = servletRequest.getRequestURI().toString();
+        if (!ValidateUtil.isEmpty(user)) {
+            chain.doFilter(request, response);
+            return;
         } else {
-            httpResponse.sendRedirect(servletRequest.getContextPath() + "/index.jsp");
+            boolean doRedirect = true;
+            // 注：在pattenURL中的全部不拦截 url.indexOf(urlStr) > -1 表示urlStr在url中出现过，出现就不拦截
+            for (String urlStr : pattenUrl) {
+                if (url.indexOf(urlStr) > -1) {
+                    doRedirect = false;
+                    break;
+                }
+            }
+            if (doRedirect) {
+                httpResponse.sendRedirect(indexUrl);
+            } else {
+                chain.doFilter(request, response);
+            }
         }
     }
 
