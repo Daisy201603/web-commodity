@@ -1,41 +1,39 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/page/common/header.jsp"%>
-<html>
-<head>
-    <title>用户登录</title>
-</head>
-<body>
-    <div style="height: 40px">
 
-    </div>
-    <div style="margin:20px 0;"></div>
-    <div class="easyui-panel" title="login" style="width:100%;max-width:400px;padding:30px 60px;">
-        <form id="ff" method="post">
-            <div style="margin-bottom:20px">
-                <input class="easyui-textbox" name="username"  value="${user.userName}" style="width:100%" data-options="label:'UserName:',required:true,missingMessage:'请输入用户名'">
-            </div>
-            <div style="margin-bottom:20px">
-                <input class="easyui-textbox" name="password" type="password" value="${user.password}" style="width:100%" data-options="label:'Password:',required:true,missingMessage:'请输入密码'">
-            </div>
-            <%--<div style="margin-bottom:20px">
-                <input class="easyui-textbox" name="subject" style="width:100%" data-options="label:'Subject:',required:true">
-            </div>
-            <div style="margin-bottom:20px">
-                <input class="easyui-textbox" name="message" style="width:100%;height:60px" data-options="label:'Message:',multiline:true">
-            </div>
-            <div style="margin-bottom:20px">
-                <select class="easyui-combobox" name="language" label="Language" style="width:100%"><option value="ar">Arabic</option><option value="bg">Bulgarian</option><option value="ca">Catalan</option><option value="zh-cht">Chinese Traditional</option><option value="cs">Czech</option><option value="da">Danish</option><option value="nl">Dutch</option><option value="en" selected="selected">English</option><option value="et">Estonian</option><option value="fi">Finnish</option><option value="fr">French</option><option value="de">German</option><option value="el">Greek</option><option value="ht">Haitian Creole</option><option value="he">Hebrew</option><option value="hi">Hindi</option><option value="mww">Hmong Daw</option><option value="hu">Hungarian</option><option value="id">Indonesian</option><option value="it">Italian</option><option value="ja">Japanese</option><option value="ko">Korean</option><option value="lv">Latvian</option><option value="lt">Lithuanian</option><option value="no">Norwegian</option><option value="fa">Persian</option><option value="pl">Polish</option><option value="pt">Portuguese</option><option value="ro">Romanian</option><option value="ru">Russian</option><option value="sk">Slovak</option><option value="sl">Slovenian</option><option value="es">Spanish</option><option value="sv">Swedish</option><option value="th">Thai</option><option value="tr">Turkish</option><option value="uk">Ukrainian</option><option value="vi">Vietnamese</option></select>
-            </div>--%>
-        </form>
-        <div style="text-align:center;padding:5px 0">
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="login.userLogin()" style="width:80px">Login</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="login.signIn()" style="width:80px">Sign in</a>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="${contextPath}/images/favicon.ico">
+    <title>用户登录</title>
+    <link href="${contextPath}/css/signin.css" rel="stylesheet">
+</head>
+    <body class="personal-text-center">
+        <div >
+            <form class="form-signin">
+                <label for="username" class="sr-only">用户名</label>
+                <input type="text" id="username" name="username" class="form-control" value="${user.userName}" placeholder="Username" required autofocus>
+                <label for="password" class="sr-only">密码</label>
+                <input type="password" id="password" name="password" class="form-control" style="margin-top: 10px" value="${user.password}" placeholder="Password" required>
+                <div class="checkbox mb-3" style="margin-left: 80px">
+                    <label>
+                        <input type="checkbox" value="remember-me">记住我
+                    </label>
+                </div>
+            </form>
+            <a href="javascript:void(0)" class="btn btn-lg btn-primary btn-block" style="width: 250px;margin-left: 3px" onclick="login.userLogin()" style="width:80px">Login</a>
+
+            <p class="mt-5 mb-3 text-muted" style="margin-left: 80px">&copy; 2017-2018</p>
         </div>
-    </div>
-    <script type="text/javascript">
-        seajs.use("${contextPath}/js/commodity/login");
-        seajs.data = "${contextPath}";
-    </script>
-</body>
+
+        <script type="text/javascript">
+            seajs.use("${contextPath}/js/commodity/login");
+            seajs.data = "${contextPath}";
+        </script>
+
+    </body>
 </html>
-<%@ include file="/WEB-INF/page/common/footer.jsp"%>

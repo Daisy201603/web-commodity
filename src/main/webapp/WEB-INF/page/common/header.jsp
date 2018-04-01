@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="${contextPath}/EasyUI/easyui.css">
     <link rel="stylesheet" type="text/css" href="${contextPath}/EasyUI/icon.css">
     <link rel="stylesheet" type="text/css" href="${contextPath}/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="${contextPath}/css/personalCss.css">
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -24,13 +25,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Commodity</a>
+                <a class="navbar-brand" href="${contextPath}/user/homepage">Commodity</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li>
+                        <a href="${contextPath}/user/homepage">主页</a>
+                    </li>
+                    <li><a href="#about">关于</a></li>
+                    <li><a href="#contact">联系我们</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

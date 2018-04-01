@@ -51,7 +51,7 @@ define(function (require,exports,module) {
             });
             if(forwardFlag){
                 //登录成功，跳转至主页
-                window.location.href = "showUser";
+                window.location.href = "homepage";
             }
         },
         /**

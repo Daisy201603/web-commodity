@@ -50,11 +50,9 @@ target/web-commodity/EasyUI/jquery.min.js
 *.js
 *.class
 *.jar
-*.jsp
 *.gif
 *.properties
 *.jpg
-*.css
 *.war
 *.sql
 *.MF

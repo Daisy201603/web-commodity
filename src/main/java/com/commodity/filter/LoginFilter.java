@@ -24,6 +24,7 @@ public class LoginFilter implements Filter{
     public void init(FilterConfig filterConfig) throws ServletException {
         pattenUrl.add("/index.jsp");
         pattenUrl.add("/user/login");
+        pattenUrl.add("/user/userLogin");
         pattenUrl.add(".css");
         pattenUrl.add(".image");
         pattenUrl.add(".js");
