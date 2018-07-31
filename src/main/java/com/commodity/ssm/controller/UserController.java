@@ -45,9 +45,9 @@ public class UserController {
 
     @RequestMapping(value = "/login",method= {RequestMethod.GET})
     public ModelAndView login(HttpServletRequest request){
-        User user = sessionCheck(request);
+        // User user = sessionCheck(request);
         ModelAndView model = new ModelAndView();
-        model.addObject("user",user);
+        // model.addObject("user",user);
         model.setViewName("/biz/login");
         return model;
     }
@@ -55,7 +55,8 @@ public class UserController {
     @RequestMapping(value = "/userLogin",method= {RequestMethod.POST})
     @ResponseBody
     public boolean userLogin(@RequestBody User user, HttpServletRequest request){
-        if (!ValidateUtil.isEmpty(sessionCheck(request))) {
+        if (false) {
+            // TODO:!ValidateUtil.isEmpty(sessionCheck(request))
             return true;
         } else {
             User loginUser = userService.login(user);

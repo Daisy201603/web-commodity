@@ -15,20 +15,21 @@ define(function (require,exports,module) {
         /**
          * 用户登录
          * */
-        userLogin:function () {
+        userLogin : function () {
+            var me = this;
             var forwardFlag = false;
-            var name = $("input[name = username]").val();
-            var password = $("input[name = password]").val();
-            if(null == name || name == "" || name === ""){
-                $("input[name = username]").focus();
+            var account = $("#account").val();
+            var password = $("#password").val();
+            if(!me.valueCheck(account)){
+                $("#account").focus();
                 return;
-            }else if(null == password || password == "" || password === ""){
-                $("input[name = password]").focus();
+            }else if(!me.valueCheck(password)){
+                $("#password").focus();
                 return;
             }
 
             var user = {};
-            user.userName = name;
+            user.account = account;
             user.password = password;
 
             $.ajax({
@@ -40,26 +41,54 @@ define(function (require,exports,module) {
                 contentType: "application/json; charset=utf-8",
                 success: function(data){
                     if(data){
-                        //如果直接跳转至jsp的话不行 因为WEB-INF下的jsp是访问不到的
-                        //所以应该是跳转至控制器然后由控制器跳转
+                        // 直接跳转至jsp的话不行 因为WEB-INF下的jsp是访问不到的
+                        // 且ajax访问spring控制器再重定向是不行的
+                        // 所以应该是跳转至控制器然后由控制器跳转
                         forwardFlag = true;
                     }
-                },
-                error : function () {
-                    $.messager.alert('alert','Username or password is incorrect!');
                 }
             });
             if(forwardFlag){
                 //登录成功，跳转至主页
                 window.location.href = "homepage";
+            } else {
+                alert("账号或密码错误！");
             }
         },
+
         /**
          * 注册
          */
         signIn : function(){
-        $('#ff').form('clear');
-    }
+            $('#ff').form('clear');
+        },
+
+        /**
+         * 参数判断
+         */
+        valueCheck : function (value) {
+            if (value == null || value == "" || value === "" || value == "undefined") {
+                return false;
+            }
+            return true;
+        },
+
+        /**
+         * 注册
+         */
+        register : function () {
+            var obj = $("#register");
+            obj.show();
+        },
+
+        /**
+         * 注册
+         */
+        closeRegister : function () {
+            $("#register").hide();
+        }
+
+
     }
 
 

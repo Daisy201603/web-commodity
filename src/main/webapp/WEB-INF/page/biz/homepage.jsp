@@ -6,6 +6,5 @@
 </head>
 
 <body class="personal-text-center">
-<p>主页</p>
 </body>
 </html>

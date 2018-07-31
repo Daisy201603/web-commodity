@@ -129,7 +129,16 @@
     </select>
 
     <select id="queryUserByNameAndPassword" parameterType="com.commodity.ssm.model.User" resultType="com.commodity.ssm.model.User">
-        SELECT * FROM user WHERE username = #{userName} AND password = #{password}
+        SELECT
+          *
+        FROM user
+        WHERE 1=1
+        <if test="email != null">
+          AND email = #{email}
+        </if>
+        <if test="phone != null">
+            AND phone = #{phone}
+        </if>
     </select>
 
     <select id="selectStudentWithAddress" parameterType="int" resultMap="StudentWithAddressResultOne">
