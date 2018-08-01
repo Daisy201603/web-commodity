@@ -1,5 +1,6 @@
 package com.commodity.ssm.service;
 
+import com.commodity.common.JsonData;
 import com.commodity.ssm.model.Course;
 import com.commodity.ssm.model.Student;
 import com.commodity.ssm.model.User;
@@ -35,6 +36,17 @@ public interface UserService {
     User login(User user);
 
     /**
+     * 用户注册
+     *
+     * @author GongDiXin
+     * @date 2018/8/1 20:46
+     * @param user
+     * @return
+     * @exception
+    */
+    JsonData register(User user);
+
+    /**
      * @author GongDiXin
      * @date 2018/3/14 19:24
      * @param studentId
@@ -45,7 +57,7 @@ public interface UserService {
     /**
      * @author GongDiXin
      * @date 2018/3/14 22:13
-     * @param
+     * @param studentId
      */
     Student selectStudentWithAddressTwo(int studentId);
 

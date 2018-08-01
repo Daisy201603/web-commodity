@@ -1,6 +1,7 @@
 package com.commodity.ssm.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.commodity.common.JsonData;
 import com.commodity.ssm.model.Course;
 import com.commodity.ssm.model.Student;
 import com.commodity.ssm.model.User;
@@ -52,6 +53,15 @@ public class UserController {
         return model;
     }
 
+    /**
+     * 用户登录
+     *
+     * @author GongDiXin
+     * @date 2018/8/1 20:43
+     * @param
+     * @return
+     * @exception
+    */
     @RequestMapping(value = "/userLogin",method= {RequestMethod.POST})
     @ResponseBody
     public boolean userLogin(@RequestBody User user, HttpServletRequest request){
@@ -69,7 +79,21 @@ public class UserController {
         return false;
     }
 
-
+    /**
+     * 注册
+     *
+     * @author GongDiXin
+     * @date 2018/8/1 20:54
+     * @param
+     * @return
+     * @exception
+    */
+    @RequestMapping(value = "/userRegister",method= {RequestMethod.POST})
+    @ResponseBody
+    public JsonData userRegister(@RequestBody User user, HttpServletRequest request){
+        // 返回主键id
+       return userService.register(user);
+    }
 
     @RequestMapping("/showUser")
     public String showUser(HttpServletRequest request,Model model){

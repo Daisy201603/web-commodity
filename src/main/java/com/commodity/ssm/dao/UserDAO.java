@@ -39,6 +39,27 @@ public interface UserDAO {
     User queryUserByNameAndPassword(User user);
 
     /**
+     * 注册
+     *
+     * @author GongDiXin
+     * @date 2018/8/1 20:50
+     * @param user
+     * @return 主键id
+    */
+    int register(User user);
+
+    /**
+     * 根据电话和邮箱查询用户
+     *
+     * @author GongDiXin
+     * @date 2018/8/1 20:55
+     * @param user
+     * @return
+     * @exception
+    */
+    User queryUserByPhoneAndEmail(User user);
+
+    /**
      * Mybatis一对多或多对多训练
      *
      * @author GongDiXin

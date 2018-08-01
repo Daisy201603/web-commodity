@@ -1,5 +1,6 @@
 package com.commodity.ssm.service;
 
+import com.commodity.common.JsonData;
 import com.commodity.ssm.model.Course;
 import com.commodity.ssm.model.Student;
 import com.commodity.ssm.model.User;
@@ -65,6 +66,22 @@ public class UserServiceImp implements UserService{
         } else {
             return null;
         }
+    }
+
+    @Override
+    public JsonData register(User user) {
+        if (StringUtils.isEmpty(user.getEmail()) || StringUtils.isEmpty(user.getPhone())) {
+            return JsonData.fail("邮箱或电话为空");
+        }
+        if (userDAO.queryUserByPhoneAndEmail(user) == null) {
+            user.setPassword(DigestUtils.md5Hex(user.getPassword()));
+            if (userDAO.register(user) != 0) {
+                return JsonData.fail("注册成功");
+            }
+        } else {
+            return JsonData.fail("账号已被注册");
+        }
+        return JsonData.fail("注册失败");
     }
 
     @Override

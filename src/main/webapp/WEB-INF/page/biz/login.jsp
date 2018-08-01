@@ -54,8 +54,8 @@
             <label>邮箱：</label>
             <input type="text" id="email" class="form-control">
             <label>密码：</label>
-            <input type="password" id="usernameRegister" class="form-control">
-            <button class="btn btn-lg btn-primary btn-block" style="width: 100px">提交</button>
+            <input type="password" id="registerPassword" class="form-control">
+            <button class="btn btn-lg btn-primary btn-block" style="width: 100px" onclick="login.save()">提交</button>
             <button class="btn btn-lg btn-primary btn-block" style="width: 100px" onclick="login.closeRegister()">关闭</button>
         </div>
 

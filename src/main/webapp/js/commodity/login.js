@@ -82,13 +82,54 @@ define(function (require,exports,module) {
         },
 
         /**
-         * 注册
+         * 关闭注册框
          */
         closeRegister : function () {
             $("#register").hide();
+        },
+
+        /**
+         * 保存
+         */
+        save : function () {
+            var me = this;
+            var username = $("#username").val();
+            var phone = $("#phone").val();
+            var email = $("#email").val();
+            var registerPassword = $("#registerPassword").val();
+            if(!me.valueCheck(username)){
+                $("#username").focus();
+                return;
+            }else if(!me.valueCheck(phone)){
+                $("#phone").focus();
+                return;
+            }else if(!me.valueCheck(email)){
+                $("#email").focus();
+                return;
+            }else if(!me.valueCheck(registerPassword)){
+                $("#registerPassword").focus();
+                return;
+            }
+
+            var user = {};
+            user.username = username;
+            user.phone = phone;
+            user.email = email;
+            user.password = registerPassword;
+
+            $.ajax({
+                type: "POST",
+                url: "userRegister",
+                async:true,
+                data: JSON.stringify(user),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function(data){
+                    alert(data.msg);
+                    me.closeRegister();
+                }
+            });
         }
-
-
     }
 
 

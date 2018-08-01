@@ -4,12 +4,108 @@
 
     <resultMap id="UserBaseMap" type="com.commodity.ssm.model.User">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="username" property="userName" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
         <result column="birthday" property="birthday" jdbcType="DATE"/>
         <result column="sex" property="sex" jdbcType="CHAR"/>
         <result column="address" property="address" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
     </resultMap>
+
+    <select id="selectAllUser" resultMap="UserBaseMap">
+        SELECT
+        username AS userName,
+        address AS address,
+        if(sex = '1','男','女') AS sex
+        FROM
+        USER
+    </select>
+
+    <select id="queryUserByNameAndPassword" parameterType="com.commodity.ssm.model.User" resultType="com.commodity.ssm.model.User">
+        SELECT
+        *
+        FROM user
+        WHERE 1=1
+        <if test="email != null">
+            AND email = #{email}
+        </if>
+        <if test="phone != null">
+            AND phone = #{phone}
+        </if>
+    </select>
+
+    <select id="queryUserByPhoneAndEmail" parameterType="com.commodity.ssm.model.User" resultMap="UserBaseMap">
+        SELECT
+          id,
+          account,
+          username,
+          email,
+          phone
+        FROM USER
+        WHERE
+          phone = #{phone}
+          OR
+          email = #{email}
+    </select>
+
+    <insert id="register" parameterType="com.commodity.ssm.model.User" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="username != null" >
+                username,
+            </if>
+            <if test="account != null" >
+                account,
+            </if>
+            <if test="email != null" >
+                email,
+            </if>
+            <if test="phone != null" >
+                phone,
+            </if>
+            <if test="birthday != null" >
+                birthday,
+            </if>
+            <if test="sex != null" >
+                sex,
+            </if>
+            <if test="address != null" >
+                address,
+            </if>
+            <if test="password != null" >
+                password,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="username != null" >
+                #{username},
+            </if>
+            <if test="account != null" >
+                #{account},
+            </if>
+            <if test="email != null" >
+                #{email},
+            </if>
+            <if test="phone != null" >
+                #{phone},
+            </if>
+            <if test="birthday != null" >
+                #{birthday},
+            </if>
+            <if test="sex != null" >
+                #{sex},
+            </if>
+            <if test="address != null" >
+                #{address},
+            </if>
+            <if test="password != null" >
+                #{password},
+            </if>
+        </trim>
+    </insert>
 
     <!--使用点符号和嵌套对象-->
     <resultMap id="StudentWithAddressResultOne" type="com.commodity.ssm.model.Student">
@@ -118,28 +214,6 @@
             <result column="end_date" property="endDate"/>
         </collection>
     </resultMap>
-
-    <select id="selectAllUser" resultMap="UserBaseMap">
-        SELECT
-            username AS userName,
-            address AS address,
-            if(sex = '1','男','女') AS sex
-        FROM
-            USER
-    </select>
-
-    <select id="queryUserByNameAndPassword" parameterType="com.commodity.ssm.model.User" resultType="com.commodity.ssm.model.User">
-        SELECT
-          *
-        FROM user
-        WHERE 1=1
-        <if test="email != null">
-          AND email = #{email}
-        </if>
-        <if test="phone != null">
-            AND phone = #{phone}
-        </if>
-    </select>
 
     <select id="selectStudentWithAddress" parameterType="int" resultMap="StudentWithAddressResultOne">
         SELECT
