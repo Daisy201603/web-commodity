@@ -91,7 +91,6 @@ public class UserController {
     @RequestMapping(value = "/userRegister",method= {RequestMethod.POST})
     @ResponseBody
     public JsonData userRegister(@RequestBody User user, HttpServletRequest request){
-        // 返回主键id
        return userService.register(user);
     }
 

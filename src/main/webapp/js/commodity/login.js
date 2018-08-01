@@ -34,7 +34,7 @@ define(function (require,exports,module) {
 
             $.ajax({
                 type: "POST",
-                url: "userLogin",
+                url: "../user/userLogin",
                 async:false,
                 data: JSON.stringify(user),
                 dataType: "json",
@@ -116,10 +116,13 @@ define(function (require,exports,module) {
             user.phone = phone;
             user.email = email;
             user.password = registerPassword;
-
+            // 下面代码中的url路径为什么这么写 原因有2
+            // 如果你项目配置了项目名在tomcat里面 那么可能使用相对路径访问不到controller
+            // 所以加两个点表示上层目录
+            // 可以参考：https://blog.csdn.net/qq_27740983/article/details/76125627
             $.ajax({
                 type: "POST",
-                url: "userRegister",
+                url: "../user/userRegister",
                 async:true,
                 data: JSON.stringify(user),
                 dataType: "json",
