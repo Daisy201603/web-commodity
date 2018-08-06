@@ -18,6 +18,7 @@ define(function (require,exports,module) {
         userLogin : function () {
             var me = this;
             var forwardFlag = false;
+            var msg;
             var account = $("#account").val();
             var password = $("#password").val();
             if(!me.valueCheck(account)){
@@ -34,25 +35,26 @@ define(function (require,exports,module) {
 
             $.ajax({
                 type: "POST",
-                url: "../user/userLogin",
+                url: "/commodity/user/userLogin",
                 async:false,
                 data: JSON.stringify(user),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                success: function(data){
-                    if(data){
+                success: function(result){
+                    if(result.ret){
                         // 直接跳转至jsp的话不行 因为WEB-INF下的jsp是访问不到的
                         // 且ajax访问spring控制器再重定向是不行的
                         // 所以应该是跳转至控制器然后由控制器跳转
                         forwardFlag = true;
                     }
+                    msg = result.msg;
                 }
             });
             if(forwardFlag){
                 //登录成功，跳转至主页
-                window.location.href = "homepage";
+                window.location.href = "/commodity/user/homepage";
             } else {
-                alert("账号或密码错误！");
+                alert(msg);
             }
         },
 
@@ -122,7 +124,7 @@ define(function (require,exports,module) {
             // 可以参考：https://blog.csdn.net/qq_27740983/article/details/76125627
             $.ajax({
                 type: "POST",
-                url: "../user/userRegister",
+                url: "/commodity/user/userRegister",
                 async:true,
                 data: JSON.stringify(user),
                 dataType: "json",

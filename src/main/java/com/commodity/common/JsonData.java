@@ -59,10 +59,25 @@ public class JsonData {
      * @param object 请求结果数据
      * @return jsonData
     */
-    public static JsonData success(String msg,Object object){
+    public static JsonData success(String msg, Object object){
         JsonData jsonData = new JsonData(true);
         jsonData.msg = msg;
         jsonData.data = object;
+        return jsonData;
+    }
+
+    /**
+     * @author GongDiXin
+     * @date 2018/1/11 22:38
+     * @description
+     * @param msg 返回结果信息
+     * @param objects 请求结果数据
+     * @return jsonData
+     */
+    public static JsonData success(String msg, Object[] objects){
+        JsonData jsonData = new JsonData(true);
+        jsonData.msg = msg;
+        jsonData.data = objects;
         return jsonData;
     }
 

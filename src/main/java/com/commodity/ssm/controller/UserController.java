@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
-    private Logger log = Logger.getLogger(UserController.class);
+    private Logger logger = Logger.getLogger(UserController.class);
 
     /**
      * @author GongDiXin
@@ -46,10 +45,8 @@ public class UserController {
 
     @RequestMapping(value = "/login",method= {RequestMethod.GET})
     public ModelAndView login(HttpServletRequest request){
-        // User user = sessionCheck(request);
         ModelAndView model = new ModelAndView();
-        // model.addObject("user",user);
-        model.setViewName("/biz/login");
+        model.setViewName("/login.jsp");
         return model;
     }
 
@@ -64,19 +61,14 @@ public class UserController {
     */
     @RequestMapping(value = "/userLogin",method= {RequestMethod.POST})
     @ResponseBody
-    public boolean userLogin(@RequestBody User user, HttpServletRequest request){
-        if (false) {
-            // TODO:!ValidateUtil.isEmpty(sessionCheck(request))
-            return true;
-        } else {
-            User loginUser = userService.login(user);
-            if (!ValidateUtil.isEmpty(loginUser)) {
-                HttpSession session = request.getSession();
-                session.setAttribute("loginUser",loginUser);
-                return true;
-            }
+    public JsonData userLogin(@RequestBody User user, HttpServletRequest request){
+        User loginUser = userService.login(user);
+        String lastRequestUrl = request.getRequestURI().toString();
+        if (!ValidateUtil.isEmpty(loginUser)) {
+            request.getSession().setAttribute("user", loginUser);
+            return JsonData.success("登录成功", new Object[]{loginUser.getPhone(), loginUser.getEmail(), loginUser.getUsername(), lastRequestUrl});
         }
-        return false;
+        return JsonData.fail("登录失败");
     }
 
     /**
@@ -151,27 +143,5 @@ public class UserController {
     public String findAllTutor(HttpServletRequest request,Model model){
         List<Course> courses = userService.findAllTutor();
         return JSON.toJSON(courses).toString();
-    }
-
-    /**
-     * session检查
-     *
-     * @author GongDiXin
-     * @date 2018/3/29 21:47
-     * @param request
-     * @return 是否存在session
-    */
-    private User sessionCheck(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        User user =  (User) session.getAttribute("loginUser");
-        if (ValidateUtil.isEmpty(user)) {
-            return null;
-        }
-        User queryUser = userService.login(user);
-        if (ValidateUtil.isEmpty(queryUser)) {
-            return null;
-        } else {
-            return queryUser;
-        }
     }
 }

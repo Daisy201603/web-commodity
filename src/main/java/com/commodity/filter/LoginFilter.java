@@ -1,7 +1,10 @@
 package com.commodity.filter;
 
+import com.commodity.common.RequestHolder;
 import com.commodity.ssm.model.User;
 import com.commodity.util.ValidateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -18,46 +21,36 @@ import java.util.List;
  */
 public class LoginFilter implements Filter{
 
-    private static List<String> pattenUrl = new ArrayList<>();
+    Logger logger = LoggerFactory.getLogger(LoginFilter.class);
+
+    /**
+     * 登录请求
+     * */
+    private final String LOGIN_URL = "/commodity/user/userLogin";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        pattenUrl.add("/index.jsp");
-        pattenUrl.add("/user/login");
-        pattenUrl.add("/user/userLogin");
-        pattenUrl.add(".css");
-        pattenUrl.add(".image");
-        pattenUrl.add(".js");
-        pattenUrl.add(".fonts");
+
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest servletRequest = (HttpServletRequest)request;
-        HttpServletResponse httpResponse = (HttpServletResponse)response;
-        HttpSession session = servletRequest.getSession();
-        User user = (User)session.getAttribute("loginUser");
-
-        String indexUrl = servletRequest.getContextPath() + "/index.jsp";
-        String url = servletRequest.getRequestURI().toString();
-        if (!ValidateUtil.isEmpty(user)) {
-            chain.doFilter(request, response);
-            return;
-        } else {
-            boolean doRedirect = true;
-            // 注：在pattenURL中的全部不拦截 url.indexOf(urlStr) > -1 表示urlStr在url中出现过，出现就不拦截
-            for (String urlStr : pattenUrl) {
-                if (url.indexOf(urlStr) > -1) {
-                    doRedirect = false;
-                    break;
-                }
-            }
-            if (doRedirect) {
-                httpResponse.sendRedirect(indexUrl);
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest)servletRequest;
+        HttpServletResponse response = (HttpServletResponse)servletResponse;
+        HttpSession session = request.getSession();
+        // 如果是登录界面发起的登录请求不过滤
+        if (!LOGIN_URL.equals(request.getRequestURI())) {
+            User user = (User)session.getAttribute("user");
+            if (user == null) {
+                response.sendRedirect(request.getContextPath() + "/login.jsp");
+                logger.info("用户未登录，跳转至登录界面");
+                return;
             } else {
-                chain.doFilter(request, response);
+                RequestHolder.addRequest(request);
+                RequestHolder.addUser(user);
             }
         }
+        chain.doFilter(servletRequest, response);
     }
 
     @Override
