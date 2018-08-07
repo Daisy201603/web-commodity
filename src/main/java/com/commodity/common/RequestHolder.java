@@ -35,7 +35,7 @@ public class RequestHolder {
      * @date 2018/8/6 22:25
      * @return
     */
-    public User getCurrentUser() {
+    public static User getCurrentUser() {
         return USER_HOLDER.get();
     }
 
@@ -46,7 +46,7 @@ public class RequestHolder {
      * @date 2018/8/6 22:25
      * @return
     */
-    public HttpServletRequest getCurrentRequest() {
+    public static HttpServletRequest getCurrentRequest() {
         return REQUEST_HOLDER.get();
     }
 
@@ -69,6 +69,6 @@ public class RequestHolder {
      */
     public static void remove() {
         USER_HOLDER.remove();
-        RequestHolder.remove();
+        REQUEST_HOLDER.remove();
     }
 }

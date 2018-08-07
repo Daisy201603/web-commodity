@@ -1,6 +1,16 @@
+<%@ page import="com.commodity.ssm.model.User" %>
 <%@ page pageEncoding="UTF-8" contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/page/common/taglibs.jsp"%>
 <html>
+<%
+    User currentUser = (User) request.getSession().getAttribute("user");
+    String username;
+    if (currentUser != null) {
+        username = currentUser.getUsername();
+    } else {
+        username = "";
+    }
+%>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,9 +40,19 @@
                     </li>
                     <li><a href="#about">关于</a></li>
                     <li><a href="#contact">联系我们</a></li>
+                    <% if (currentUser != null) { %>
+                        <span style="font-size: 18px; color: white;">账号：<%= username%></span>
+                        &nbsp&nbsp
+                        <a style="font-size: 18px; color: white;" onclick="header.logout()">退出</a>
+                    <% } %>
                 </ul>
-            </div><!--/.nav-collapse -->
+            </div>
         </div>
     </nav>
+
+    <script type="text/javascript">
+        seajs.use("${contextPath}/js/commodity/header");
+        seajs.data = "${contextPath}";
+    </script>
 </body>
 </html>

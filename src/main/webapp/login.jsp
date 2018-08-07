@@ -34,7 +34,7 @@
                 <input type="password" id="password" class="form-control" style="margin-top: 10px" value="${user.password}" placeholder="密码" required>
                 <div class="checkbox mb-3" style="margin-left: 45px">
                     <label>
-                        <input type="checkbox"  id="remember" value="remember-me">记住我
+                        <input type="radio" name="remember">记住我
                     </label>
 
                     <a style="margin-left: 20px" onclick="login.register()">注册</a>

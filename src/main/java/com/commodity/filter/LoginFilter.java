@@ -43,7 +43,6 @@ public class LoginFilter implements Filter{
             User user = (User)session.getAttribute("user");
             if (user == null) {
                 response.sendRedirect(request.getContextPath() + "/login.jsp");
-                logger.info("用户未登录，跳转至登录界面");
                 return;
             } else {
                 RequestHolder.addRequest(request);

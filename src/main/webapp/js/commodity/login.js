@@ -21,6 +21,12 @@ define(function (require,exports,module) {
             var msg;
             var account = $("#account").val();
             var password = $("#password").val();
+            var remember = $('input:radio[name="remember"]:checked').val();
+            if (remember == undefined) {
+                remember = 0;
+            } else if (remember == "on") {
+                remember = 1;
+            }
             if(!me.valueCheck(account)){
                 $("#account").focus();
                 return;

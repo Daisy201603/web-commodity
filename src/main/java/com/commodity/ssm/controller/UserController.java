@@ -2,6 +2,7 @@ package com.commodity.ssm.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.commodity.common.JsonData;
+import com.commodity.common.RequestHolder;
 import com.commodity.ssm.model.Course;
 import com.commodity.ssm.model.Student;
 import com.commodity.ssm.model.User;
@@ -96,6 +97,13 @@ public class UserController {
     @RequestMapping("/homepage")
     public String homepage(){
         return "biz/homepage";
+    }
+
+    @RequestMapping("/logout")
+    public void logout(HttpServletRequest request){
+        request.getSession().removeAttribute("user");
+        // 移除本地变量
+        RequestHolder.remove();
     }
 
     @RequestMapping("/queryStudentOne")
