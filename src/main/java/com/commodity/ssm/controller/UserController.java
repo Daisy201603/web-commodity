@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -45,10 +44,8 @@ public class UserController {
     
 
     @RequestMapping(value = "/login",method= {RequestMethod.GET})
-    public ModelAndView login(HttpServletRequest request){
-        ModelAndView model = new ModelAndView();
-        model.setViewName("/login.jsp");
-        return model;
+    public String login(HttpServletRequest request){
+        return "redirect:login";
     }
 
     /**

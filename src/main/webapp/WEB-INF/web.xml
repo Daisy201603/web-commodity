@@ -60,6 +60,11 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
     <async-supported>true</async-supported>
+    <multipart-config>
+      <location>D:/commodity/uploads</location>
+      <max-file-size>2097152</max-file-size>
+      <max-request-size>4194304</max-request-size>
+    </multipart-config>
   </servlet>
   <servlet-mapping>
     <servlet-name>SpringMVC</servlet-name>
