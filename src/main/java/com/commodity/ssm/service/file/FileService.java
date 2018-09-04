@@ -1,6 +1,7 @@
 package com.commodity.ssm.service.file;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author GongDiXin
@@ -16,8 +17,7 @@ public interface FileService {
      * @author GongDiXin
      * @date 2018/9/4 21:02
      * @param headPortrait
-     * @return
-     * @exception
+     * @return String
     */
-    int uploadHeadPortrait(byte[] headPortrait);
+    String uploadHeadPortrait(MultipartFile headPortrait);
 }
