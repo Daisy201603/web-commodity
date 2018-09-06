@@ -36,7 +36,7 @@ public class FileUploadController {
     */
     @RequestMapping(value = "/uploadHeadPortrait", method = RequestMethod.POST)
     public String uploadHeadPortrait(HttpServletRequest request, @RequestPart("headPortrait") MultipartFile headPortrait) {
-        String result = fileService.uploadHeadPortrait(headPortrait);
+        String result = fileService.uploadHeadPortrait(request, headPortrait);
         request.setAttribute("uploadResult", result);
         return "/biz/UploadResult";
     }

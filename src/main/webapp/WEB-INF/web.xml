@@ -67,6 +67,11 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
+  <!-- 监听器 -->
+  <listener>
+    <listener-class>com.commodity.system.CommoditySystem</listener-class>
+  </listener>
+
   <welcome-file-list>
     <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>

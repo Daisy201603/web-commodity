@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commodity.ssm.dao.file.FileDAO">
+
+    <insert id="addFileInfo" parameterType="com.commodity.ssm.model.file.FileInfo" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO file
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fileName != null" >
+                filename,
+            </if>
+            <if test="fileId != null" >
+                fileid,
+            </if>
+            <if test="userId != null" >
+                userid,
+            </if>
+            <if test="createTime != null" >
+                createtime,
+            </if>
+            <if test="fileUrl != null" >
+                fileurl,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="fileName != null" >
+                #{fileName},
+            </if>
+            <if test="fileId != null" >
+                #{fileId},
+            </if>
+            <if test="userId != null" >
+                #{userId},
+            </if>
+            <if test="createTime != null" >
+                #{createTime},
+            </if>
+            <if test="fileUrl != null" >
+                #{fileUrl},
+            </if>
+        </trim>
+    </insert>
+</mapper>

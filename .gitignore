@@ -46,12 +46,10 @@ target/web-commodity/EasyUI/jquery.min.js
 .idea/encodings.xml
 .idea/libraries/Maven__com_alibaba_fastjson_1_1_41.xml
 *.iml
-*.xml
 *.js
 *.class
 *.jar
 *.gif
-*.properties
 *.jpg
 *.war
 *.sql

@@ -3,10 +3,12 @@ package com.commodity.ssm.controller;
 import com.alibaba.fastjson.JSON;
 import com.commodity.common.JsonData;
 import com.commodity.common.RequestHolder;
+import com.commodity.ssm.manager.UserManager;
 import com.commodity.ssm.model.Course;
 import com.commodity.ssm.model.Student;
 import com.commodity.ssm.model.User;
 import com.commodity.ssm.service.UserService;
+import com.commodity.util.CommodityConst;
 import com.commodity.util.ValidateUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,7 +65,8 @@ public class UserController {
         User loginUser = userService.login(user);
         String lastRequestUrl = request.getRequestURI().toString();
         if (!ValidateUtil.isEmpty(loginUser)) {
-            request.getSession().setAttribute("user", loginUser);
+            request.getSession().setAttribute(CommodityConst.REQUEST_USER, loginUser);
+            UserManager.addUser(loginUser);
             return JsonData.success("登录成功", new Object[]{loginUser.getPhone(), loginUser.getEmail(), loginUser.getUsername(), lastRequestUrl});
         }
         return JsonData.fail("登录失败");
