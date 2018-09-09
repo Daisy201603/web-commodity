@@ -23,4 +23,24 @@ public interface FileDAO {
      * @exception
     */
     int addFileInfo(FileInfo fileInfo);
+
+    /**
+     * 更新用户头像地址
+     *
+     * @author GongDiXin
+     * @date 2018/9/9 22:55
+     * @param fileInfo
+    */
+    void updateHeadPortrait(FileInfo fileInfo);
+
+    /**
+     * 获取用户头像
+     *
+     * @author GongDiXin
+     * @date 2018/9/6 22:42
+     * @param userId
+     * @return
+     * @exception
+     */
+    String getUserHeadPortraitUrl(Integer userId);
 }

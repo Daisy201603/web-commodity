@@ -1,7 +1,5 @@
 package com.commodity.util;
 
-import com.commodity.common.JsonData;
-import com.commodity.ssm.manager.UserManager;
 import com.commodity.ssm.model.User;
 import com.commodity.ssm.model.file.FileInfo;
 import com.commodity.system.CommoditySystem;
@@ -76,14 +74,15 @@ public class FileUtil {
         if (ValidateUtil.isEmpty(user)) {
             return null;
         }
-        String configFileUrl = CommoditySystem.configProperties.get("com.commodity.file.url");
+        String configFileUrl = CommoditySystem.configProperties.get("com.commodity.ordinary.file.url");
         String filePath = CommoditySystem.systemUrl + configFileUrl;
         createFileOrDir(filePath);
         FileInfo fileInfo = null;
         InputStream input = null;
         OutputStream out = null;
+        filePath = filePath + multipartFile.getOriginalFilename();
         try {
-            File file = new File(filePath + multipartFile.getOriginalFilename());
+            File file = new File(filePath);
             input = multipartFile.getInputStream();
             out = new FileOutputStream(file);
             int temp;
@@ -92,11 +91,15 @@ public class FileUtil {
             }
             fileInfo = new FileInfo();
             fileInfo.setFileName(multipartFile.getOriginalFilename());
-            fileInfo.setFileId(createFileName());
+            fileInfo.setFileId(EncryptUtil.getRandomFileId(6));
             fileInfo.setUserId(user.getId());
-            fileInfo.setCreateTime(DateUtil.getTime("yyyyMMdd"));
-            // TODO: 系统级的获得服务器地址
-            fileInfo.setFileUrl(request.getRemoteAddr()+ request.getRemotePort() + request.getContextPath() + configFileUrl + multipartFile.getOriginalFilename());
+            fileInfo.setCreateTime(DateUtil.getTime("yyyy-MM-dd hh:mm:ss"));
+            fileInfo.setFileUrl(CommoditySystem.getOrdinaryFileUrl() + multipartFile.getOriginalFilename());
+            if (logger.isDebugEnabled()) {
+                logger.debug("FileUtil.upload 文件上传成功" + " [filename: " + fileInfo.getFileName() + "]"
+                        + " [fileId: " + fileInfo.getFileId() + "]"
+                        + " [userId: " + fileInfo.getUserId() + "]");
+            }
             return fileInfo;
         } catch (IOException e) {
             if (logger.isErrorEnabled()) {
@@ -132,21 +135,5 @@ public class FileUtil {
         if (!file.exists()) {
             file.mkdirs();
         }
-    }
-
-    /**
-     * 创建文件id
-     * java生成流水号
-     * 14位时间戳 + 6位随机数
-     *
-     * @author GongDiXin
-     * @date 2018/9/6 22:22
-     * @param
-     * @return
-     * @exception
-    */
-    private static String createFileName() {
-        // TODO: 文件id生成规则需要修改
-        return (DateUtil.getTime("yyyy-MM-dd hh:mm:ss") + (Math.random() + 1) * 100000).trim();
     }
 }

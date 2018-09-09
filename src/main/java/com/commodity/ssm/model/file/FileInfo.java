@@ -40,6 +40,11 @@ public class FileInfo {
      * */
     private String fileUrl;
 
+    /**
+     * 最近一个更新时间
+     * */
+    private String lastModifyTime;
+
     public int getId() {
         return id;
     }
@@ -86,5 +91,13 @@ public class FileInfo {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    public String getLastModifyTime() {
+        return lastModifyTime;
+    }
+
+    public void setLastModifyTime(String lastModifyTime) {
+        this.lastModifyTime = lastModifyTime;
     }
 }

@@ -1,5 +1,6 @@
 package com.commodity.ssm.service.file;
 
+import com.commodity.ssm.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,4 +24,26 @@ public interface FileService {
      * @return String
     */
     String uploadHeadPortrait(HttpServletRequest request, MultipartFile headPortrait);
+
+
+    /**
+     * 更新用户头像地址
+     *
+     * @author GongDiXin
+     * @date 2018/9/4 21:02
+     * @param request
+     * @param headPortrait
+     * @return String
+     */
+    String updateHeadPortrait(HttpServletRequest request, MultipartFile headPortrait);
+
+    /**
+     * 获取用户头像地址
+     *
+     * @author GongDiXin
+     * @date 2018/9/4 21:02
+     * @param user
+     * @return JsonData
+     */
+    String getUserHeadPortraitUrl(User user);
 }

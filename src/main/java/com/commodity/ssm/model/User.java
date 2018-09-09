@@ -57,6 +57,11 @@ public class User {
      */
     private String password;
 
+    /**
+     * 头像地址
+     */
+    private String headImgUrl;
+
     public Integer getId() {
         return id;
     }
@@ -127,5 +132,13 @@ public class User {
 
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    public String getHeadImgUrl() {
+        return headImgUrl;
+    }
+
+    public void setHeadImgUrl(String headImgUrl) {
+        this.headImgUrl = headImgUrl;
     }
 }

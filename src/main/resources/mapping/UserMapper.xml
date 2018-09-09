@@ -25,8 +25,18 @@
 
     <select id="queryUserByNameAndPassword" parameterType="com.commodity.ssm.model.User" resultType="com.commodity.ssm.model.User">
         SELECT
-        *
-        FROM user
+        a.id as id,
+        a.username as username,
+        a.account as account,
+        a.email as email,
+        a.phone as phone,
+        a.birthday as birthday,
+        a.sex as sex,
+        a.address as address,
+        a.password as password,
+        b.headimgurl as headImgUrl
+        FROM user a
+        LEFT JOIN file b ON a.id = b.userid
         WHERE 1=1
         <if test="email != null">
             AND email = #{email}

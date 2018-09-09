@@ -5,10 +5,13 @@
 <%
     User currentUser = (User) request.getSession().getAttribute("user");
     String username;
+    Integer userId;
     if (currentUser != null) {
         username = currentUser.getUsername();
+        userId = currentUser.getId();
     } else {
         username = "";
+        userId = -1;
     }
 %>
 <head>
@@ -38,13 +41,17 @@
                     <li>
                         <a href="${contextPath}/user/homepage">主页</a>
                     </li>
-                    <li><a href="#about">关于</a></li>
-                    <li><a href="#contact">联系我们</a></li>
-                    <% if (currentUser != null) { %>
-                        <span style="font-size: 18px; color: white;">账号：<%= username%></span>
-                        &nbsp&nbsp
-                        <a style="font-size: 18px; color: white;" onclick="header.logout()">退出</a>
-                    <% } %>
+                    <li>
+                        <% if (currentUser != null) { %>
+                            <li><a href="#about">账号：<%= username%></a></li>
+                            <input id="userId" type="text" value="<%= userId%>" hidden="hidden"/>
+                            <li><a href="#about" onclick="header.logout()">退出</a></li>
+                        <% } %>
+                        <li>
+                            <img id="userHeadPortrait" width="50px" height="50px" style="background: white"/>
+                        </li>
+                    </li>
+
                 </ul>
             </div>
         </div>
