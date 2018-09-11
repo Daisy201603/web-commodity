@@ -12,10 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,8 +60,9 @@ public class FileUploadController {
      * @exception
     */
     @RequestMapping(value = "/getUserHeadPortraitUrl", method = RequestMethod.POST)
-    public JsonData getUserHeadPortraitUrl(@RequestParam("userId") String userId, HttpServletRequest request) {
-        User user = UserManager.getCurrentLoginUser(Integer.parseInt(userId));
+    @ResponseBody
+    public JsonData getUserHeadPortraitUrl(@RequestParam("userId") Integer userId, HttpServletRequest request) {
+        User user = UserManager.getCurrentLoginUser(userId);
         if (ValidateUtil.isEmpty(user)) {
             user = (User) request.getSession().getAttribute(CommodityConst.REQUEST_USER);
         }
@@ -83,9 +81,7 @@ public class FileUploadController {
                 return JsonData.success(fileInfo.getFileUrl());
             }
         } else {
-            return JsonData.success(user.getUserInfo().getHeadImgUrl());
+            return JsonData.success("获取成功", user.getUserInfo().getHeadImgUrl());
         }
-
-
     }
 }
