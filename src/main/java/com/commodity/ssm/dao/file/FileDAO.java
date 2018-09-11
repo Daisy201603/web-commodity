@@ -42,5 +42,5 @@ public interface FileDAO {
      * @return
      * @exception
      */
-    String getUserHeadPortraitUrl(Integer userId);
+    FileInfo getUserHeadPortraitUrl(Integer userId);
 }

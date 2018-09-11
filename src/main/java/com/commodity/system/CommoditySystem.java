@@ -80,6 +80,7 @@ public class CommoditySystem extends HttpServlet implements ServletContextListen
         configProperties.put("com.commodity.protocol", properties.getProperty("com.commodity.protocol"));
         configProperties.put("com.commodity.domain", properties.getProperty("com.commodity.domain"));
         configProperties.put("com.commodity.port", properties.getProperty("com.commodity.port"));
+        configProperties.put("com.commodity.server.name", properties.getProperty("com.commodity.server.name"));
     }
 
     /**
@@ -96,7 +97,9 @@ public class CommoditySystem extends HttpServlet implements ServletContextListen
                                 + "://"
                                 + configProperties.get("com.commodity.domain")
                                 + ":"
-                                + configProperties.get("com.commodity.port");
+                                + configProperties.get("com.commodity.port")
+                                + "/"
+                                + configProperties.get("com.commodity.server.name");
         return commodityUrl;
     }
 

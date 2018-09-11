@@ -23,20 +23,35 @@
         USER
     </select>
 
-    <select id="queryUserByNameAndPassword" parameterType="com.commodity.ssm.model.User" resultType="com.commodity.ssm.model.User">
+    <resultMap id="userInfo" type="com.commodity.ssm.model.User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="account" property="account"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="birthday" property="birthday" />
+        <result column="sex" property="sex" />
+        <result column="address" property="address" />
+        <result column="password" property="password" />
+        <result column="fileurl" property="userInfo.headImgUrl" />
+        <result column="fileid" property="userInfo.headFileId" />
+    </resultMap>
+
+    <select id="queryUserByNameAndPassword" parameterType="com.commodity.ssm.model.User" resultMap="userInfo">
         SELECT
-        a.id as id,
-        a.username as username,
-        a.account as account,
-        a.email as email,
-        a.phone as phone,
-        a.birthday as birthday,
-        a.sex as sex,
-        a.address as address,
-        a.password as password,
-        b.headimgurl as headImgUrl
-        FROM user a
-        LEFT JOIN file b ON a.id = b.userid
+        a.id,
+        a.username,
+        a.account,
+        a.email,
+        a.phone,
+        a.birthday,
+        a.sex,
+        a.address,
+        a.password,
+        b.fileurl,
+        b.fileid
+        FROM USER a
+        LEFT JOIN FILE b ON a.id = b.userid
         WHERE 1=1
         <if test="email != null">
             AND email = #{email}

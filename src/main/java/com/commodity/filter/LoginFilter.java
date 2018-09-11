@@ -2,6 +2,7 @@ package com.commodity.filter;
 
 import com.commodity.common.RequestHolder;
 import com.commodity.ssm.model.User;
+import com.commodity.util.CommodityConst;
 import com.commodity.util.ValidateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ public class LoginFilter implements Filter{
         HttpSession session = request.getSession();
         // 如果是登录界面发起的登录请求不过滤
         if (!LOGIN_URL.equals(request.getRequestURI())) {
-            User user = (User)session.getAttribute("user");
+            User user = (User)session.getAttribute(CommodityConst.REQUEST_USER);
             if (user == null) {
                 response.sendRedirect(request.getContextPath() + "/login.jsp");
                 return;

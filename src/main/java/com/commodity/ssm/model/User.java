@@ -57,10 +57,7 @@ public class User {
      */
     private String password;
 
-    /**
-     * 头像地址
-     */
-    private String headImgUrl;
+    private UserInfo userInfo;
 
     public Integer getId() {
         return id;
@@ -134,11 +131,11 @@ public class User {
         this.account = account;
     }
 
-    public String getHeadImgUrl() {
-        return headImgUrl;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 
-    public void setHeadImgUrl(String headImgUrl) {
-        this.headImgUrl = headImgUrl;
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 }

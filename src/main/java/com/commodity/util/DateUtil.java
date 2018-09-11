@@ -17,12 +17,29 @@ public class DateUtil {
      *
      * @author GongDiXin
      * @date 2018/9/6 23:10
-     * @param
+     * @param format
      * @return
-     * @exception
-    */
+     */
     public static String getTime(String format) {
         simpleDateFormat = new SimpleDateFormat(format);
         return simpleDateFormat.format(new Date());
+    }
+
+    /**
+     * 获取指定格式时间
+     *
+     * @author GongDiXin
+     * @date 2018/9/6 23:10
+     * @param format
+     * @return
+     */
+    public static String getCurrentTime(String format) {
+        simpleDateFormat = new SimpleDateFormat(format);
+        long currentTime = System.currentTimeMillis();
+        return simpleDateFormat.format(currentTime);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getCurrentTime("yyyy-MM-dd hh:mm:ss"));
     }
 }

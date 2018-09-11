@@ -40,4 +40,44 @@
             </if>
         </trim>
     </insert>
+
+    <update id="updateHeadPortrait" parameterType="com.commodity.ssm.model.file.FileInfo" >
+        UPDATE file
+        <trim prefix="set" suffixOverrides=",">
+            <if test="fileName != null">
+                filename = #{fileName},
+            </if>
+            <if test="fileId != null">
+                fileid = #{fileId},
+            </if>
+            <if test="userId != null">
+                userid = #{userId},
+            </if>
+            <if test="createTime != null">
+                createtime = #{createTime},
+            </if>
+            <if test="fileUrl != null">
+                fileurl = #{fileUrl},
+            </if>
+            <if test="lastModifyTime != null">
+                lastmodifytime = #{lastModifyTime},
+            </if>
+        </trim>
+        WHERE 1 = 1
+         AND userid = #{userId}
+    </update>
+
+    <select id="getUserHeadPortraitUrl" parameterType="java.lang.Integer" resultType="com.commodity.ssm.model.file.FileInfo">
+        SELECT
+          id as id,
+          filename as fileName,
+          fileid as fileId,
+          userid as userId,
+          createtime as createTime,
+          fileurl as fileUrl,
+          lastmodifytime as lastModifyTime
+          FROM file
+          WHERE
+            userid = #{userId}
+    </select>
 </mapper>
