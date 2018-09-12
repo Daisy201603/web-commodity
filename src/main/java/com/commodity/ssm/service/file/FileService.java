@@ -22,6 +22,8 @@ public interface FileService {
      * @date 2018/9/4 21:02
      * @param request
      * @param headPortrait
+     * @param userId
+     *
      * @return String
     */
     String uploadHeadPortrait(HttpServletRequest request, MultipartFile headPortrait, Integer userId);

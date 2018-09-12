@@ -74,13 +74,37 @@ public class FileUtil {
         if (ValidateUtil.isEmpty(user)) {
             return null;
         }
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setFileName(multipartFile.getOriginalFilename());
+        fileInfo.setFileId(EncryptUtil.getRandomFileId(6));
+        fileInfo.setUserId(user.getUserId());
+        fileInfo.setCreateTime(DateUtil.getTime("yyyy-MM-dd hh:mm:ss"));
+        fileInfo.setFileUrl(CommoditySystem.getOrdinaryFileUrl() + multipartFile.getOriginalFilename());
+        if (logger.isDebugEnabled()) {
+            logger.debug("FileUtil.upload 文件上传成功" + " [filename: " + fileInfo.getFileName() + "]"
+                    + " [fileId: " + fileInfo.getFileId() + "]"
+                    + " [userId: " + fileInfo.getUserId() + "]");
+        }
+        return fileInfo;
+    }
+
+
+    /**
+     * 上传文件
+     *
+     * @author GongDiXin
+     * @date 2018/9/12 22:07
+     * @param
+     * @return
+     * @exception
+    */
+    public static void uploadFile(MultipartFile multipartFile) {
         String configFileUrl = CommoditySystem.configProperties.get("com.commodity.ordinary.file.url");
         String filePath = CommoditySystem.systemUrl + configFileUrl;
         createFileOrDir(filePath);
-        FileInfo fileInfo = null;
+        filePath = filePath + multipartFile.getOriginalFilename();
         InputStream input = null;
         OutputStream out = null;
-        filePath = filePath + multipartFile.getOriginalFilename();
         try {
             File file = new File(filePath);
             input = multipartFile.getInputStream();
@@ -89,23 +113,10 @@ public class FileUtil {
             while ((temp = input.read()) != -1) {
                 out.write(temp);
             }
-            fileInfo = new FileInfo();
-            fileInfo.setFileName(multipartFile.getOriginalFilename());
-            fileInfo.setFileId(EncryptUtil.getRandomFileId(6));
-            fileInfo.setUserId(user.getId());
-            fileInfo.setCreateTime(DateUtil.getTime("yyyy-MM-dd hh:mm:ss"));
-            fileInfo.setFileUrl(CommoditySystem.getOrdinaryFileUrl() + multipartFile.getOriginalFilename());
-            if (logger.isDebugEnabled()) {
-                logger.debug("FileUtil.upload 文件上传成功" + " [filename: " + fileInfo.getFileName() + "]"
-                        + " [fileId: " + fileInfo.getFileId() + "]"
-                        + " [userId: " + fileInfo.getUserId() + "]");
-            }
-            return fileInfo;
         } catch (IOException e) {
             if (logger.isErrorEnabled()) {
                 logger.error("上传文件错误", e);
             }
-            return fileInfo;
         } finally {
             try {
                 input.close();
@@ -117,6 +128,7 @@ public class FileUtil {
                 }
             }
         }
+
     }
 
     /**

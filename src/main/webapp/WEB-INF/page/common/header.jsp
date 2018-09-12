@@ -8,7 +8,7 @@
     Integer userId;
     if (currentUser != null) {
         username = currentUser.getUsername();
-        userId = currentUser.getId();
+        userId = currentUser.getUserId();
     } else {
         username = "";
         userId = -1;
@@ -51,7 +51,6 @@
                             <img id="userHeadPortrait" width="50px" height="50px" style="background: white"/>
                         </li>
                     </li>
-
                 </ul>
             </div>
         </div>

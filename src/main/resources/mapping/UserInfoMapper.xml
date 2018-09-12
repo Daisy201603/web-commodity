@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commodity.ssm.dao.UserInfoDAO">
+
+    <insert id="insertUserInfo" parameterType="com.commodity.ssm.model.UserInfo" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO userinfo
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                userid,
+            </if>
+            <if test="headFileId != null" >
+                headfileid,
+            </if>
+            <if test="headImgUrl != null" >
+                headimgurl,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId},
+            </if>
+            <if test="headFileId != null" >
+                #{headFileId},
+            </if>
+            <if test="headImgUrl != null" >
+                #{headImgUrl},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateUserInfo" parameterType="com.commodity.ssm.model.UserInfo" >
+        UPDATE userinfo
+        <trim prefix="set" suffixOverrides=",">
+            <if test="headImgUrl != null">
+                headimgurl = #{headImgUrl},
+            </if>
+        </trim>
+        WHERE 1 = 1
+        AND userid = #{userId}
+    </update>
+
+    <select id="getUserInfo" parameterType="java.lang.Integer" resultType="com.commodity.ssm.model.UserInfo">
+        SELECT
+        userid as userId,
+        headfileid as headFileId,
+        headimgurl as headImgUrl
+        FROM userinfo
+        WHERE 1 =1
+        AND userid = #{userId}
+    </select>
+</mapper>

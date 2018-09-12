@@ -3,7 +3,9 @@ package com.commodity.ssm.controller.file;
 import com.commodity.common.JsonData;
 import com.commodity.ssm.manager.UserManager;
 import com.commodity.ssm.model.User;
+import com.commodity.ssm.model.UserInfo;
 import com.commodity.ssm.model.file.FileInfo;
+import com.commodity.ssm.service.UserInfoService;
 import com.commodity.ssm.service.file.FileService;
 import com.commodity.util.CommodityConst;
 import com.commodity.util.ValidateUtil;
@@ -29,6 +31,9 @@ public class FileUploadController {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private UserInfoService userInfoService;
+
     /**
      * 上传用户头像
      *
@@ -42,7 +47,7 @@ public class FileUploadController {
         User user = (User) request.getSession().getAttribute(CommodityConst.REQUEST_USER);
         String result;
         if (ValidateUtil.isEmpty(user.getUserInfo()) || StringUtils.isBlank(user.getUserInfo().getHeadFileId())) {
-            result = fileService.uploadHeadPortrait(request, headPortrait, user.getId());
+            result = fileService.uploadHeadPortrait(request, headPortrait, user.getUserId());
         } else {
             result = fileService.updateHeadPortrait(request, user, headPortrait);
         }
@@ -70,15 +75,14 @@ public class FileUploadController {
             return JsonData.fail("用户不存在");
         }
 
-        if (StringUtils.isBlank(user.getUserInfo().getHeadImgUrl())) {
-            FileInfo fileInfo = fileService.getUserHeadPortraitUrl(user);
-            if (ValidateUtil.isEmpty(fileInfo)) {
+        if (ValidateUtil.isEmpty(user.getUserInfo()) || StringUtils.isBlank(user.getUserInfo().getHeadImgUrl())) {
+            UserInfo userInfo = userInfoService.getUserInfo(userId);
+            if (ValidateUtil.isEmpty(userInfo)) {
                 return JsonData.fail("未获取到用户头像地址");
             } else {
-                user.getUserInfo().setHeadFileId(fileInfo.getFileId());
-                user.getUserInfo().setHeadImgUrl(fileInfo.getFileUrl());
+               user.setUserInfo(userInfo);
                 request.getSession().setAttribute(CommodityConst.REQUEST_USER, user);
-                return JsonData.success(fileInfo.getFileUrl());
+                return JsonData.success(userInfo.getHeadImgUrl());
             }
         } else {
             return JsonData.success("获取成功", user.getUserInfo().getHeadImgUrl());

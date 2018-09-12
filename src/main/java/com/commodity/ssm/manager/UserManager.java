@@ -22,7 +22,7 @@ public class UserManager {
      * @param user
      */
     public static void addUser(User user) {
-        userManager.put(user.getId(), user);
+        userManager.put(user.getUserId(), user);
     }
 
     /**

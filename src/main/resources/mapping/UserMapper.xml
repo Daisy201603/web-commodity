@@ -3,7 +3,7 @@
 <mapper namespace="com.commodity.ssm.dao.UserDAO">
 
     <resultMap id="UserBaseMap" type="com.commodity.ssm.model.User">
-        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="userid" property="userId" jdbcType="INTEGER"/>
         <result column="username" property="username" jdbcType="VARCHAR"/>
         <result column="birthday" property="birthday" jdbcType="DATE"/>
         <result column="sex" property="sex" jdbcType="CHAR"/>
@@ -24,7 +24,7 @@
     </select>
 
     <resultMap id="userInfo" type="com.commodity.ssm.model.User">
-        <id column="id" property="id"/>
+        <id column="userid" property="userId"/>
         <result column="username" property="username"/>
         <result column="account" property="account"/>
         <result column="email" property="email"/>
@@ -33,13 +33,13 @@
         <result column="sex" property="sex" />
         <result column="address" property="address" />
         <result column="password" property="password" />
-        <result column="fileurl" property="userInfo.headImgUrl" />
-        <result column="fileid" property="userInfo.headFileId" />
+        <result column="headimgurl" property="userInfo.headImgUrl" />
+        <result column="headfileid" property="userInfo.headFileId" />
     </resultMap>
 
     <select id="queryUserByNameAndPassword" parameterType="com.commodity.ssm.model.User" resultMap="userInfo">
         SELECT
-        a.id,
+        a.userid,
         a.username,
         a.account,
         a.email,
@@ -48,10 +48,10 @@
         a.sex,
         a.address,
         a.password,
-        b.fileurl,
-        b.fileid
+        b.headimgurl,
+        b.headfileid
         FROM USER a
-        LEFT JOIN FILE b ON a.id = b.userid
+        LEFT JOIN USERINFO b ON a.userid = b.userid
         WHERE 1=1
         <if test="email != null">
             AND email = #{email}
@@ -63,7 +63,7 @@
 
     <select id="queryUserByPhoneAndEmail" parameterType="com.commodity.ssm.model.User" resultMap="UserBaseMap">
         SELECT
-          id,
+          userid,
           account,
           username,
           email,

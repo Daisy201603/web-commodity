@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserInfo extends User {
 
+    private int id;
+
     /**
      * 头像文件id
      */
@@ -19,6 +21,14 @@ public class UserInfo extends User {
      * 头像地址
      */
     private String headImgUrl;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getHeadImgUrl() {
         return headImgUrl;

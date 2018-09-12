@@ -1,6 +1,6 @@
 package com.commodity.ssm.service.file.fileimpl;
 
-import com.commodity.common.JsonData;
+import com.commodity.ssm.dao.UserInfoDAO;
 import com.commodity.ssm.dao.file.FileDAO;
 import com.commodity.ssm.manager.UserManager;
 import com.commodity.ssm.model.User;
@@ -12,15 +12,14 @@ import com.commodity.util.CommodityConst;
 import com.commodity.util.DateUtil;
 import com.commodity.util.FileUtil;
 import com.commodity.util.ValidateUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 
 /**
  * @author GongDiXin
@@ -35,11 +34,15 @@ public class FileServiceImpl implements FileService {
     @Autowired
     private FileDAO fileDAO;
 
+    @Autowired
+    private UserInfoDAO userInfoDAO;
+
     @Override
+    @Transactional
     public String uploadHeadPortrait(HttpServletRequest request, MultipartFile headPortrait, Integer userId) {
-        String filename = headPortrait.getName();
+        String filename = headPortrait.getOriginalFilename();
         boolean legalType = FileUtil.checkImgType(filename);
-        if (legalType) {
+        if (!legalType) {
             return "不支持的文件类型";
         }
         FileInfo fileInfo = FileUtil.upload(request, headPortrait);
@@ -47,32 +50,41 @@ public class FileServiceImpl implements FileService {
             return "文件上传失败";
         } else {
             fileDAO.addFileInfo(fileInfo);
-            updateUserInfo(request, fileInfo, userId);
+            UserInfo userInfo = new UserInfo();
+            userInfo.setUserId(userId);
+            userInfo.setHeadFileId(fileInfo.getFileId());
+            userInfo.setHeadImgUrl(fileInfo.getFileUrl());
+            userInfoDAO.insertUserInfo(userInfo);
+            updateUserInfo(request, fileInfo);
+            FileUtil.uploadFile(headPortrait);
             return "文件上传成功";
         }
     }
 
     @Override
+    @Transactional
     public String updateHeadPortrait(HttpServletRequest request, User user, MultipartFile headPortrait) {
         FileInfo fileInfo = new FileInfo();
-        fileInfo.setUserId(user.getId());
+        fileInfo.setFileId(user.getUserInfo().getHeadFileId());
+        fileInfo.setUserId(user.getUserId());
         fileInfo.setFileName(headPortrait.getOriginalFilename());
         fileInfo.setLastModifyTime(DateUtil.getCurrentTime("yyyy-MM-dd hh:mm:ss"));
         fileInfo.setFileUrl(CommoditySystem.getOrdinaryFileUrl() + headPortrait.getOriginalFilename());
         fileDAO.updateHeadPortrait(fileInfo);
-        updateUserInfo(request, fileInfo, user.getId());
+        userInfoDAO.updateUserInfo(updateUserInfo(request, fileInfo));
+        FileUtil.uploadFile(headPortrait);
         return "更新成功";
     }
 
     @Override
     public FileInfo getUserHeadPortraitUrl(User user) {
-        if (ValidateUtil.isEmpty(user.getId())) {
+        if (ValidateUtil.isEmpty(user.getUserId())) {
             if (logger.isErrorEnabled()) {
                 logger.error("用户id为空");
             }
             return null;
         }
-        FileInfo fileInfo =  fileDAO.getUserHeadPortraitUrl(user.getId());
+        FileInfo fileInfo =  fileDAO.getUserHeadPortraitUrl(user.getUserId());
         return fileInfo;
     }
 
@@ -85,12 +97,14 @@ public class FileServiceImpl implements FileService {
      * @return
      * @exception
     */
-    private void updateUserInfo(HttpServletRequest request, FileInfo fileInfo, Integer userId) {
-        User user = UserManager.getCurrentLoginUser(userId);
+    private UserInfo updateUserInfo(HttpServletRequest request, FileInfo fileInfo) {
+        User user = (User) request.getSession().getAttribute(CommodityConst.REQUEST_USER);
         UserInfo userInfo = new UserInfo();
         userInfo.setHeadFileId(fileInfo.getFileId());
         userInfo.setHeadImgUrl(fileInfo.getFileUrl());
+        userInfo.setUserId(user.getUserId());
         user.setUserInfo(userInfo);
         request.setAttribute(CommodityConst.REQUEST_USER, user);
+        return userInfo;
     }
 }
