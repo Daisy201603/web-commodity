@@ -1,5 +1,6 @@
 package com.commodity.ssm.service.file;
 
+import com.commodity.common.JsonData;
 import com.commodity.ssm.model.User;
 import com.commodity.ssm.model.file.FileInfo;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,17 @@ public interface FileService {
      * @author GongDiXin
      * @date 2018/9/4 21:02
      * @param user
-     * @return JsonData
+     * @return
      */
     FileInfo getUserHeadPortraitUrl(User user);
+
+    /**
+     * 上传文件
+     *
+     * @author GongDiXin
+     * @date 2018/9/4 21:02
+     * @param file
+     * @return JsonData
+     */
+    JsonData uploadFile(MultipartFile file);
 }

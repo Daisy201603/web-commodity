@@ -37,4 +37,17 @@ public class UserManager {
     public static User getCurrentLoginUser(int userId) {
         return userManager.get(userId);
     }
+
+    /**
+     * 移除用户
+     *
+     * @author GongDiXin
+     * @date 2018/9/13 21:28
+     * @param userId
+     * @return
+     * @exception
+    */
+    public static void removeUser(Integer userId) {
+        userManager.remove(userId);
+    }
 }

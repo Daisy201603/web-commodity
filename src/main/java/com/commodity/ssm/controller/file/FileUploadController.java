@@ -88,4 +88,19 @@ public class FileUploadController {
             return JsonData.success("获取成功", user.getUserInfo().getHeadImgUrl());
         }
     }
+
+    /**
+     * 上传文件
+     *
+     * @author GongDiXin
+     * @date 2018/9/13 21:57
+     * @param
+     * @return
+     * @exception
+    */
+    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    public JsonData uploadFile(@RequestPart("file") MultipartFile file, HttpServletRequest request) {
+
+        return JsonData.success();
+    }
 }

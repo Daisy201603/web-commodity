@@ -53,8 +53,8 @@ public class FileUtil {
      * @exception
     */
     public static boolean checkImgType(String filename) {
-        String filesuffix = getFileSuffix(filename);
-        if (!(filesuffix.equals("jpg") || filesuffix.equals("jpeg") || filesuffix.equals("png"))) {
+        String fileSuffix = getFileSuffix(filename);
+        if (!(fileSuffix.equals("jpg") || fileSuffix.equals("jpeg") || fileSuffix.equals("png"))) {
             return false;
         }
         return true;

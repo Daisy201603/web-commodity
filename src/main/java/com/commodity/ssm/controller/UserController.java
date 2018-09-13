@@ -12,11 +12,8 @@ import com.commodity.util.CommodityConst;
 import com.commodity.util.ValidateUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.apache.log4j.Logger;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -100,56 +97,10 @@ public class UserController {
     }
 
     @RequestMapping("/logout")
-    public void logout(HttpServletRequest request){
+    public void logout(@RequestParam("userId") Integer userId, HttpServletRequest request){
         request.getSession().removeAttribute("user");
         // 移除本地变量
         RequestHolder.remove();
-    }
-
-    @RequestMapping("/queryStudentOne")
-    @ResponseBody
-    public String queryStudentOne(HttpServletRequest request,Model model){
-        int studentId = 1;
-        Student student = userService.selectStudentWithAddress(studentId);
-        return JSON.toJSON(student).toString();
-    }
-
-    @RequestMapping("/queryStudentTwo")
-    @ResponseBody
-    public String queryStudentTwo(HttpServletRequest request,Model model){
-        int studentId = 1;
-        Student student = userService.selectStudentWithAddressTwo(studentId);
-        return JSON.toJSON(student).toString();
-    }
-
-    @RequestMapping("/queryStudentThree")
-    @ResponseBody
-    public String queryStudentThree(HttpServletRequest request,Model model){
-        int studentId = 2;
-        Student student = userService.selectStudentWithAddressThree(studentId);
-        return JSON.toJSON(student).toString();
-    }
-
-    @RequestMapping("/findTutorByIdOne")
-    @ResponseBody
-    public String findTutorByIdOne(HttpServletRequest request,Model model){
-        int tutorId = 2;
-        List<Course> courses = userService.findTutorByIdOne(tutorId);
-        return JSON.toJSON(courses).toString();
-    }
-
-    @RequestMapping("/findTutorByIdTwo")
-    @ResponseBody
-    public String findTutorByIdTwo(HttpServletRequest request,Model model){
-        int tutorId = 2;
-        List<Course> courses = userService.findTutorByIdTwo(tutorId);
-        return JSON.toJSON(courses).toString();
-    }
-
-    @RequestMapping("/findAllTutor")
-    @ResponseBody
-    public String findAllTutor(HttpServletRequest request,Model model){
-        List<Course> courses = userService.findAllTutor();
-        return JSON.toJSON(courses).toString();
+        UserManager.removeUser(userId);
     }
 }
